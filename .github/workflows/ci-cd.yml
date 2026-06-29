@@ -22,7 +22,7 @@ jobs:
       - name: [Backend] npm install
         run: npm install
         working-directory: ./backend
-        
+
       - name: [Backend] ESLint
         run: npm run lint
         working-directory: ./backend
@@ -41,6 +41,6 @@ jobs:
 
       - name: [Docker] Build Backend Image
         run: docker build -t unach-backend:latest ./backend
-        
+
       - name: [Docker] Build Frontend Image
         run: docker build -t unach-frontend:latest ./frontend
