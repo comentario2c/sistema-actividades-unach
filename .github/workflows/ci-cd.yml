@@ -19,28 +19,28 @@ jobs:
         with:
           node-version: '20'
 
-      - name: [Backend] npm install
+      - name: "[Backend] npm install"
         run: npm install
         working-directory: ./backend
 
-      - name: [Backend] ESLint
+      - name: "[Backend] ESLint"
         run: npm run lint
         working-directory: ./backend
 
-      - name: [Backend] Testing (Jest)
+      - name: "[Backend] Testing (Jest)"
         run: npm run test
         working-directory: ./backend
 
-      - name: [Frontend] npm install
+      - name: "[Frontend] npm install"
         run: npm install
         working-directory: ./frontend
 
-      - name: [Frontend] ESLint
+      - name: "[Frontend] ESLint"
         run: npm run lint
         working-directory: ./frontend
 
-      - name: [Docker] Build Backend Image
+      - name: "[Docker] Build Backend Image"
         run: docker build -t unach-backend:latest ./backend
 
-      - name: [Docker] Build Frontend Image
+      - name: "[Docker] Build Frontend Image"
         run: docker build -t unach-frontend:latest ./frontend
