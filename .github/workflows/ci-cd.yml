@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: '20'
 
-        # Validaciones backend (NestJS)
+      # Validaciones backend (NestJS)
       - name: [Backend] npm install
         run: npm install
         working-directory: ./backend
