@@ -1,0 +1,49 @@
+name: Integración Continua DevOps UNACH
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+        # Validaciones backend (NestJS)
+      - name: [Backend] npm install
+        run: npm install
+        working-directory: ./backend
+
+      - name: [Backend] ESLint
+        run: npm run lint
+        working-directory: ./backend
+
+      - name: [Backend] Testing (Jest)
+        run: npm run test
+        working-directory: ./backend
+
+      # Validaciones frontend (Vue.js)
+      - name: [Frontend] npm install
+        run: npm install
+        working-directory: ./frontend
+
+      - name: [Frontend] ESLint
+        run: npm run lint
+        working-directory: ./frontend
+
+      # Crear contenedores para backend y frontend
+      - name: [Docker] Build Backend Image
+        run: docker build -t unach-backend:latest ./backend
+
+      - name: [Docker] Build Frontend Image
+        run: docker build -t unach-frontend:latest ./frontend

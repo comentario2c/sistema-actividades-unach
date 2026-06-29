@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: unach-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - unach-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: unach-backend
+    restart: always
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - PORT=${PORT}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - unach-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: unach-frontend
+    restart: always
+    ports:
+      - "8080:80" # El puerto 80 del contenedor Nginx se expone al 8080 de tu PC
+    depends_on:
+      - backend
+    networks:
+      - unach-network
+
+volumes:
+  db_data:
+
+networks:
+  unach-network:
+    driver: bridge
