@@ -50,4 +50,26 @@ export class UsuariosService {
       usuario: { email: usuario.email, rol: usuario.rol },
     };
   }
+
+  obtenerTodos() {
+    return this.usuarioRepository.find({
+      select: {
+        id: true,
+        email: true,
+        rol: true,
+      },
+    });
+  }
+
+  async cambiarRol(id: number, rol: RolUsuario) {
+    await this.usuarioRepository.update(id, { rol });
+    return this.usuarioRepository.findOne({
+      select: {
+        id: true,
+        email: true,
+        rol: true,
+      },
+      where: { id },
+    });
+  }
 }

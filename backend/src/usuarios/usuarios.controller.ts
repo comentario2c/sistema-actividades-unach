@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Param, Patch, Get } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { RolUsuario } from './entities/usuario.entity';
 
@@ -26,5 +26,15 @@ export class UsuariosController {
   @Post('login')
   login(@Body() body: LoginDto) {
     return this.usuariosService.login(body.email, body.password);
+  }
+
+  @Get()
+  obtenerTodos() {
+    return this.usuariosService.obtenerTodos();
+  }
+
+  @Patch(':id/rol')
+  cambiarRol(@Param('id') id: string, @Body('rol') rol: RolUsuario) {
+    return this.usuariosService.cambiarRol(+id, rol);
   }
 }
