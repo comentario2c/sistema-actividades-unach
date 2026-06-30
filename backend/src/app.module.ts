@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ActividadesModule } from './actividades/actividades.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { ParticipacionesModule } from './participaciones/participaciones.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     }),
     ActividadesModule,
     UsuariosModule,
+    ParticipacionesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
