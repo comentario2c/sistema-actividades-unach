@@ -17,6 +17,7 @@ describe('Suite de Pruebas Unitarias Globales - UNACH', () => {
   let usuariosController: UsuariosController;
 
   // Mocks de Repositorios para simular MySQL
+// Mocks de Repositorios para simular MySQL
   const mockActividadRepository = {
     find: jest
       .fn()
@@ -25,15 +26,19 @@ describe('Suite de Pruebas Unitarias Globales - UNACH', () => {
       ]),
     save: jest
       .fn()
-      .mockImplementation((dto) => Promise.resolve({ id: 1, ...dto })),
+      .mockImplementation((dto: Partial<Actividad>) =>
+        Promise.resolve({ id: 1, ...dto }),
+      ),
   };
 
   const mockUsuarioRepository = {
     findOneBy: jest.fn().mockResolvedValue(null),
-    create: jest.fn().mockImplementation((dto) => dto),
+    create: jest.fn().mockImplementation((dto: Partial<Usuario>) => dto),
     save: jest
       .fn()
-      .mockImplementation((dto) => Promise.resolve({ id: 1, ...dto })),
+      .mockImplementation((dto: Partial<Usuario>) =>
+        Promise.resolve({ id: 1, ...dto }),
+      ),
   };
 
   // Mocks de Servicios Externos
