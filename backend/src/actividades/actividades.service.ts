@@ -47,10 +47,9 @@ export class ActividadesService {
     };
   }
 
-  // === FUNCIONALIDAD IA GENERATIVA ===
   async generarDescripcionIA(titulo: string): Promise<string> {
     const model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-    const prompt = `Actúa como un coordinador académico universitario. Escribe una descripción formal y breve (máximo 3 líneas) para una actividad institucional llamada: "${titulo}".`;
+    const prompt = `Actúa como un coordinador académico universitario. Escribe una y solo una (no debes de dar opciones, debes de dar solo una respuesta, que contenga solo la descripcion y nada mas) descripción formal y breve (máximo 3 líneas) para una actividad institucional llamada: "${titulo}".`;
 
     const result = await model.generateContent(prompt);
     return result.response.text();

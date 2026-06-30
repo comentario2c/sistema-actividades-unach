@@ -32,13 +32,13 @@ export class ParticipacionesController {
     return this.participacionesService.marcarAsistencia(+id, asistencia);
   }
 
-  @Get('actividad/:actividadId')
-  obtenerPorActividad(@Param('actividadId') actividadId: string) {
-    return this.participacionesService.obtenerPorActividad(+actividadId);
-  }
-
   @Get('usuario/:usuarioId')
   obtenerPorUsuario(@Param('usuarioId') usuarioId: string) {
     return this.participacionesService.obtenerPorUsuario(+usuarioId);
+  }
+
+  @Get('actividad/:id')
+  obtenerEstudiantesPorActividad(@Param('id') id: string) {
+    return this.participacionesService.obtenerEstudiantesPorActividad(+id);
   }
 }

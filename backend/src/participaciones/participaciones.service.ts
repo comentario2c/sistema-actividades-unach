@@ -53,4 +53,11 @@ export class ParticipacionesService {
       where: { usuario: { id: usuarioId } },
     });
   }
+
+  async obtenerEstudiantesPorActividad(actividadId: number) {
+    return this.participacionRepository.find({
+      where: { actividad: { id: actividadId } },
+      relations: { usuario: true },
+    });
+  }
 }

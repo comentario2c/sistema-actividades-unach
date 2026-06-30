@@ -26,7 +26,13 @@ const hacerLogin = async () => {
 
     authStore.setAuth(respuesta.data.access_token, respuesta.data.usuario.rol);
 
-    await router.push('/actividades');
+    if (respuesta.data.usuario.rol === "admin") {
+      await router.push('/admin');
+    } else if (respuesta.data.usuario.rol === "estudiante") {
+      await router.push('/actividades');
+    } else {
+      alert('Rol no reconocido. Contacta al administrador.');
+    }
   } catch (error) {
     alert('Error al iniciar sesión. Revisa tus credenciales.');
     console.error(error);

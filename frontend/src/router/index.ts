@@ -19,6 +19,12 @@ const router = createRouter({
       name: 'actividades',
       component: ActividadesView,
       meta: { requiresAuth: true } 
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/AdminView.vue'),
+      meta: { requiresAuth: true }
     }
   ],
 })

@@ -45,7 +45,7 @@ services:
     container_name: unach-frontend
     restart: always
     ports:
-      - "8080:80" # El puerto 80 del contenedor Nginx se expone al 8080 de tu PC
+      - "80:80" # El puerto 80 del contenedor Nginx se expone al 8080 de tu PC
     depends_on:
       - backend
     networks:
