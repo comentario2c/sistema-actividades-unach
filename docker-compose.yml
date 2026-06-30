@@ -18,6 +18,7 @@ services:
       - unach-network
 
   backend:
+    image: unach-backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -39,13 +40,14 @@ services:
       - unach-network
 
   frontend:
+    image: unach-frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: unach-frontend
     restart: always
     ports:
-      - "80:80" # El puerto 80 del contenedor Nginx se expone al 8080 de tu PC
+      - "80:80"
     depends_on:
       - backend
     networks:

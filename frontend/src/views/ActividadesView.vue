@@ -59,7 +59,6 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import api from '../api';
-import axios from 'axios';
 
 interface Actividad {
   id: number;
@@ -86,17 +85,19 @@ const inscribirse = async (actividadId: number) => {
     const token = authStore.token;
     if (!token) throw new Error("No hay sesión activa");
 
-    const payloadBase64 = token.split('.')[1];
-    if (!payloadBase64) {
-      throw new Error("Token inválido");
-    }
-    const payload = JSON.parse(atob(payloadBase64));
+    // Fix: Validamos que el split sea correcto para evitar el error de undefined
+    const parts = token.split('.');
+    if (parts.length < 2) throw new Error("Token inválido");
+    
+    const base64Url = parts[1];
+    if (!base64Url) throw new Error("Token inválido");
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const payload = JSON.parse(window.atob(base64));
 
-    if (!payload?.sub || typeof payload.sub !== 'string') {
-      throw new Error("Token inválido");
-    }
-
-    const usuarioId = payload.sub;
+    const rawId = payload.sub || payload.id;
+    if (!rawId) throw new Error("Token no contiene identificador");
+    
+    const usuarioId = Number(rawId);
 
     await api.post('/participaciones/inscribir', {
       usuarioId,
@@ -105,17 +106,14 @@ const inscribirse = async (actividadId: number) => {
 
     alert('¡Inscripción exitosa!');
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      if (error.response?.status === 409) {
-        alert('Ya estás inscrito en esta actividad.');
-      } else {
-        alert('Error al procesar la inscripción.');
-      }
+    const err = error as { response?: { status: number }, message?: string };
+    
+    if (err.response?.status === 409) {
+      alert('Ya estás inscrito en esta actividad.');
     } else {
-      alert('Error desconocido.');
+      alert('Error: ' + (err.message || 'Error desconocido'));
     }
-
-    console.error(error);
+    console.error("Detalle:", error);
   }
 };
 
